@@ -14,7 +14,7 @@ You can install the development version of autodict like so:
 
 ``` r
 # Use the remotes package
-remotes::install.github("username/packagename")
+remotes::install_github("username/packagename")
 ```
 
 ## Example
