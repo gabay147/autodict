@@ -1,6 +1,11 @@
+#' Compares the column names of data frames or files in df_list for similarities.
+#' Generates a data frame showing which variable lives where
 #'
+#' @param df_list The list of data frames to compare column names from
+#' @param df_names The desired names for the data frames. Defaults as NULL
 #'
-#'
+#' @return A data frame that compares all variables across data frames in df_list
+#' @export
 compare_column_names <- function(df_list, df_names = NULL) {
   # If no names provided, auto-name them
   if (is.null(df_names)) {
@@ -23,9 +28,23 @@ compare_column_names <- function(df_list, df_names = NULL) {
   return(presence_df)
 }
 
+#' Compares two lists for identical values. Can be used to search for identical
+#' observations between data frames.
 #'
+#' @param ids1 The first column/list to compare
+#' @param ids2 The second column/list to compare
+#' @param names A list of length 2 of desired names for the data sets
 #'
-#'
+#' @return a list containing:
+#' - Dataset names
+#' - num of unique values in each
+#' - num of common items in each
+#' - num of values solely in each
+#' - jaccard similarity
+#' - overlap percent in both
+#' - Sample of a common value
+#' - Sample of unique values in each
+#' @export
 compare_two <- function(ids1, ids2,
                         names = c("Dataset1", "Dataset2")) {
   # Standardize IDs for each vector
@@ -60,9 +79,24 @@ compare_two <- function(ids1, ids2,
   return(results)
 }
 
+#' Compares three lists for identical values. Can be used to search for identical
+#' observations between data frames.
 #'
+#' @param ids1 The first column/list to compare
+#' @param ids2 The second column/list to compare
+#' @param ids3 The third column/list to compare
+#' @param names A list of length 3 of desired names for the data sets
 #'
-#'
+#' @return a list containing:
+#' - Dataset names
+#' - num of unique values in each
+#' - num of common items in each
+#' - num of values solely in each
+#' - jaccard similarity
+#' - overlap percent in both
+#' - Sample of a common value
+#' - Sample of unique values in each
+#' @export
 compare_three <- function(ids1, ids2, ids3,
                           names = c("Dataset1", "Dataset2", "Dataset3")) {
   # Standardize IDs for each vector
