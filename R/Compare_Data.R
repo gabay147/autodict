@@ -1,7 +1,7 @@
 #' Compares the column names of data frames or files in df_list for similarities.
 #' Generates a data frame showing which variable lives where
 #'
-#' @param df_list The list of data frames to compare column names from
+#' @param df_list Character vector of object names associated with dfs
 #' @param df_names The desired names for the data frames. Defaults as NULL
 #'
 #' @return A data frame that compares all variables across data frames in df_list

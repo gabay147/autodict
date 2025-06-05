@@ -12,8 +12,7 @@ get_example(df, col_name)
 \item{col_name}{The column name in the data frame to examine}
 }
 \value{
-a string of the first non-NA value. If all values are NA, returns
-"All NA"
+a string of the first non-NA value. If all values are NA, returns "All NA"
 }
 \description{
 Gets a non-NA example of the data stored in the column (if applicable)
