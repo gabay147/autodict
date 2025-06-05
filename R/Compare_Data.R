@@ -1,6 +1,31 @@
 #'
 #'
 #'
+compare_column_names <- function(df_list, df_names = NULL) {
+  # If no names provided, auto-name them
+  if (is.null(df_names)) {
+    df_names <- paste0("df", seq_along(df_list))
+  }
+  names(df_list) <- df_names
+
+  # Get list of column names for each data frame
+  name_lists <- lapply(df_list, names)
+
+  # Create a data frame showing which variable is in which data frame
+  all_vars <- unique(unlist(name_lists))
+  presence_matrix <- sapply(name_lists, function(x) all_vars %in% x)
+  presence_df <- as.data.frame(presence_matrix)
+  presence_df$Variable <- all_vars
+
+  # Rearrange columns
+  presence_df <- presence_df[, c("Variable", df_names)]
+
+  return(presence_df)
+}
+
+#'
+#'
+#'
 compare_two <- function(ids1, ids2,
                         names = c("Dataset1", "Dataset2")) {
   # Standardize IDs for each vector
@@ -34,7 +59,6 @@ compare_two <- function(ids1, ids2,
 
   return(results)
 }
-
 
 #'
 #'
