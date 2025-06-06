@@ -1,0 +1,68 @@
+---
+title: "autodict"
+author:
+  - name: "Rebecca W."
+    affiliation: "The University of Kansas"
+  - name: "Felix G."
+    affiliation: "The University of Kansas"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{autodict}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(autodict)
+```
+
+# Introduction
+
+The purpose of the `autodict` package is to...
+
+- Read in files (individually or in a batch)
+- Gleam metadata and descriptive information about the data set
+- Compile that information into a new Excel workbook to be used in generating 
+pages for an in-house data dictionary
+
+*Currently, this package is dependent on having clean and consistent data.*
+
+
+
+## General Workflow
+
+Generally, the workflow for this package is as follows:
+
+### Read in files with `get_files_from_path()`
+
+`get_files_from_path()` takes in a `path` (default: `"."`) to a directory that 
+you want to read files from. This function parses through the directory 
+recursively, reading in files as specified by the `file_types` tag (default: 
+`c("csv", "xlsx")`).
+
+Currently, this function can only read in .csv and .xlsx files.
+
+`get_files_from_path()` returns a combined list of data frames. Each data frame
+is a file that was read in.
+
+For example, the following code block will search through everything within
+`Data/All Data`. It will parse through files within `All Data` as well as any
+additional folders nested within.
+
+```{r}
+df_list <- get_files_from_path(path = "Data/All Data", file_types = c("csv", "xlsx"))
+```
+
+If all of this data is clean and represented as you expect it should, you can 
+go ahead and run `save_data_dictionary()`, as described in the next section.
+
+### Save Data Dictionary
+
+

@@ -19,7 +19,7 @@ get_files_from_path <- function(path = ".", file_types = c("csv", "xlsx")) {
   csv_data <- c()
   xlsx_data <- c()
 
-  # Get file paths of all CSV in directory (recursive)
+  # Get file paths of all CSV or XLSX in directory (recursive)
   for(x in file_types) {
     if(x == "csv") {
       file_paths_csv <- dir_ls(
