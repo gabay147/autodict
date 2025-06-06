@@ -8,7 +8,7 @@ Generates a data frame showing which variable lives where}
 compare_column_names(df_list, df_names = NULL)
 }
 \arguments{
-\item{df_list}{The list of data frames to compare column names from}
+\item{df_list}{Character vector of object names associated with dfs}
 
 \item{df_names}{The desired names for the data frames. Defaults as NULL}
 }
