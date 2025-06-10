@@ -90,8 +90,25 @@ For example, the following code will save the dictionary of `df_list`, which we
 generated in the last step.
 
 ```{r}
-# save_data_dictionary(df_list, source_path = "overview_example")
-names(df_list)
 save_dict_csv(df_list)
 ```
 
+### XLSX vs CSV considerations
+
+In this workflow, saving an XLSX and a CSV have different needs. Ultimately, the
+output from `get_files_from_path` function can be used for both `save_dict_csv`
+and `save_dict_xlsx` without issue. However, you should pay attention to the
+`keep_dir` tag that you use.
+
+If you use `get_files_from_path(..., keep_dir = TRUE)`...
+
+- **Saving a CSV file** will save each data frame recursively in a file folder
+structure identical to that which it had originally (within the "Dictionaries"
+folder, of course).
+- **Saving an XLSX file** will behave incorrectly, as the name of each worksheet
+that composes the workbook will be filled with the file path, instead of a
+descriptive name generated from the file name.
+
+- When in doubt...
+  - **Saving a CSV: ** use `keep_dir = TRUE`
+  - **Saving an XLSX: ** use `keep_dir = FALSE`

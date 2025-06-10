@@ -86,6 +86,7 @@ save_dict_csv <- function(data, source_path = "data") {
   setwd("Dictionaries")
 
   for (i in seq_along(data)) {
+    print(data[i])
     data_name <- fs::path_file(names(data[i]))
 
     data_dir <- fs::path_dir(names(data[i]))
@@ -101,8 +102,33 @@ save_dict_csv <- function(data, source_path = "data") {
       setwd(data_dir_split[j])
     }
 
+    df <- data[[i]]
+    df_name <- names(data)[i]
+
+    # Get basic information
+    column_names <- names(df)
+    n_rows <- nrow(df)
+    percent_missing <- round(colMeans(is.na(df)) * 100, 2)
+
+    # Extract detailed information for each column
+    metadata_list <- list()
+
+    for (col_name in column_names) {
+      metadata_list[[col_name]] <- tibble::tibble(
+        `Variable Name` = col_name,
+        `Data Type` = extract_data_type(df, col_name),
+        `Rows` = n_rows,
+        `Example` = get_example(df, col_name),
+        `Percent Missing` = percent_missing[col_name],
+        `Description` = ""  # Empty for manual entry later
+      )
+    }
+
+    # Combine all columns into a single data frame
+    metadata_df <- dplyr::bind_rows(metadata_list)
+
     print(stringr::str_c("writing to: ", data_dir, "/", data_name))
-    write.csv(data[i], data_name)
+    write.csv(metadata_df, data_name)
 
     setwd(original_wd)
     setwd("Dictionaries")
@@ -111,41 +137,3 @@ save_dict_csv <- function(data, source_path = "data") {
   setwd(original_wd)
   print("Done saving!")
 }
-
-#   output_name <- paste0(
-#     "Dictionaries/",
-#     stringr::str_replace_all(source_path, "/", "_"),
-#     "_dictionary.xlsx"
-#   )
-#   output_path <- file.path(getwd(), output_name)
-#
-#   # Loop through each data frame name and extract metadata
-#   for (i in seq_along(data)) {
-#     df <- data[[i]]
-#     df_name <- names(data)[i]
-#
-#     # Get basic information
-#     column_names <- names(df)
-#     n_rows <- nrow(df)
-#     percent_missing <- round(colMeans(is.na(df)) * 100, 2)
-#
-#     # Extract detailed information for each column
-#     metadata_list <- list()
-#
-#     for (col_name in column_names) {
-#       metadata_list[[col_name]] <- tibble::tibble(
-#         `Variable Name` = col_name,
-#         `Data Type` = extract_data_type(df, col_name),
-#         `Rows` = n_rows,
-#         `Example` = get_example(df, col_name),
-#         `Percent Missing` = percent_missing[col_name],
-#         `Description` = ""  # Empty for manual entry later
-#       )
-#     }
-#
-#     # Combine all columns into a single data frame
-#     metadata_df <- dplyr::bind_rows(metadata_list)
-#
-#   }
-#
-# }
