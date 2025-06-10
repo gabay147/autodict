@@ -1,5 +1,7 @@
-source_path = "Dictionaries/2025_Jan/Temp"
+source_path = "Dictionaries/2025_Jan/Temp.csv"
 
+fs::path_file(source_path)
+fs::path_dir(source_path)
 
 
 dir_vector <- stringr::str_split_1(source_path, "/")

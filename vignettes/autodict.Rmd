@@ -49,6 +49,11 @@ recursively, reading in files as specified by the `file_types` tag (default:
 
 Currently, this function can only read in .csv and .xlsx files.
 
+The `keep_dir` tag is a boolean that determines whether the names of the data
+frames will include the original path of the files (useful if saving as CSV - 
+`keep_dir = TRUE`) or if the names should only be the source file name, without
+the path (useful if saving as XLSX - `keep_dir = FALSE` - also the default val).
+
 `get_files_from_path()` returns a combined list of data frames. Each data frame
 is a file that was read in.
 
@@ -57,7 +62,7 @@ For example, the following code block will search through everything within
 additional folders nested within.
 
 ```{r}
-df_list <- get_files_from_path(path = "Data/All Data", file_types = c("csv", "xlsx"), TRUE)
+df_list <- get_files_from_path(path = "Data/All Data", file_types = c("csv", "xlsx"), keep_dir = TRUE)
 df_list
 names(df_list)
 ```
@@ -85,6 +90,8 @@ For example, the following code will save the dictionary of `df_list`, which we
 generated in the last step.
 
 ```{r}
-save_data_dictionary(df_list, source_path = "overview_example")
+# save_data_dictionary(df_list, source_path = "overview_example")
+names(df_list)
+save_dict_csv(df_list)
 ```
 

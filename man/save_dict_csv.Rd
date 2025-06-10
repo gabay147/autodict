@@ -15,7 +15,7 @@ save_dict_csv(data, source_path = "data")
 \item{source_path}{The path for the data, where the data will be}
 }
 \value{
-Nothing, but saves a workbook as a csv file (.csv).
+Nothing, but saves a series of csv files (.csv).
 }
 \description{
 Function to save the data dictionary as a directory of CSVs

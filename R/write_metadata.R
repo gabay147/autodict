@@ -73,61 +73,79 @@ save_dict_xlsx <- function(data, source_path = "data") {
 #' @param data The complete data, often as a list of data frames
 #' @param source_path The path for the data, where the data will be
 #'
-#' @returns Nothing, but saves a workbook as a csv file (.csv).
+#' @returns Nothing, but saves a series of csv files (.csv).
 #' @export
 save_dict_csv <- function(data, source_path = "data") {
 
+  original_wd <- getwd()
+
+  names(data)
+
   ifelse(!dir.exists("Dictionaries"), dir.create("Dictionaries"), "Directory Exists")
 
-  output_name <- paste0(
-    "Dictionaries/",
-    stringr::str_replace_all(source_path, "/", "_"),
-    "_dictionary.xlsx"
-  )
-  output_path <- file.path(getwd(), output_name)
+  setwd("Dictionaries")
 
-  wb <- openxlsx::createWorkbook()
-  existing_titles <- character()
-
-  # Loop through each data frame name and extract metadata
   for (i in seq_along(data)) {
-    df <- data[[i]]
-    df_name <- names(data)[i]
+    data_name <- fs::path_file(names(data[i]))
 
-    base_title <- stringr::str_replace_all(df_name, "[/\\?*\\[\\]:]", "_")
-    base_title <- stringr::str_remove(base_title, "\\.csv$|\\.xlsx$")
-    base_title <- substr(base_title, 1, 28)
+    data_dir <- fs::path_dir(names(data[i]))
+    data_dir_split <- stringr::str_split_1(data_dir, "/")
 
-    sheet_title <- make.unique(c(existing_titles, base_title))[length(existing_titles) + 1]
-    existing_titles <- c(existing_titles, sheet_title)
+    # Create directories
+    for (j in seq_along(data_dir_split)) {
 
-    # Get basic information
-    column_names <- names(df)
-    n_rows <- nrow(df)
-    percent_missing <- round(colMeans(is.na(df)) * 100, 2)
-
-    # Extract detailed information for each column
-    metadata_list <- list()
-
-    for (col_name in column_names) {
-      metadata_list[[col_name]] <- tibble::tibble(
-        `Variable Name` = col_name,
-        `Data Type` = extract_data_type(df, col_name),
-        `Rows` = n_rows,
-        `Example` = get_example(df, col_name),
-        `Percent Missing` = percent_missing[col_name],
-        `Description` = ""  # Empty for manual entry later
-      )
+      ifelse(
+        !dir.exists(data_dir_split[j]),
+        dir.create(data_dir_split[j]),
+        "Directory Exists")
+      setwd(data_dir_split[j])
     }
 
-    # Combine all columns into a single data frame
-    metadata_df <- dplyr::bind_rows(metadata_list)
+    print(stringr::str_c("writing to: ", data_dir, "/", data_name))
+    write.csv(data[i], data_name)
 
-    # Add worksheet (sheet names must be ≤ 31 characters and unique)
-    openxlsx::addWorksheet(wb, sheet_title)
-    openxlsx::writeData(wb, sheet = sheet_title, x = metadata_df)
+    setwd(original_wd)
+    setwd("Dictionaries")
   }
 
-  openxlsx::saveWorkbook(wb, output_path, overwrite = TRUE)
-  return(invisible(output_path))
+  setwd(original_wd)
+  print("Done saving!")
 }
+
+#   output_name <- paste0(
+#     "Dictionaries/",
+#     stringr::str_replace_all(source_path, "/", "_"),
+#     "_dictionary.xlsx"
+#   )
+#   output_path <- file.path(getwd(), output_name)
+#
+#   # Loop through each data frame name and extract metadata
+#   for (i in seq_along(data)) {
+#     df <- data[[i]]
+#     df_name <- names(data)[i]
+#
+#     # Get basic information
+#     column_names <- names(df)
+#     n_rows <- nrow(df)
+#     percent_missing <- round(colMeans(is.na(df)) * 100, 2)
+#
+#     # Extract detailed information for each column
+#     metadata_list <- list()
+#
+#     for (col_name in column_names) {
+#       metadata_list[[col_name]] <- tibble::tibble(
+#         `Variable Name` = col_name,
+#         `Data Type` = extract_data_type(df, col_name),
+#         `Rows` = n_rows,
+#         `Example` = get_example(df, col_name),
+#         `Percent Missing` = percent_missing[col_name],
+#         `Description` = ""  # Empty for manual entry later
+#       )
+#     }
+#
+#     # Combine all columns into a single data frame
+#     metadata_df <- dplyr::bind_rows(metadata_list)
+#
+#   }
+#
+# }
