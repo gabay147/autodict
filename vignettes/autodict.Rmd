@@ -32,9 +32,9 @@ The purpose of the `autodict` package is to...
 - Compile that information into a new Excel workbook to be used in generating 
 pages for an in-house data dictionary
 
-*Currently, this package is dependent on having clean and consistent data.*
-
-
+*Currently, this package is dependent on having clean and consistent data. This*
+*means that cleaning the data must be done separately for these functions to*
+*work as intended!*
 
 ## General Workflow
 
@@ -63,6 +63,25 @@ df_list <- get_files_from_path(path = "Data/All Data", file_types = c("csv", "xl
 If all of this data is clean and represented as you expect it should, you can 
 go ahead and run `save_data_dictionary()`, as described in the next section.
 
-### Save Data Dictionary
+### Write dictionary file with `save_data_dicitonary()`
 
+`save_data_dictionary` takes in the complete list of data frames as `data` and
+the desired save path and directory as `source_path` (default = "data"). This
+function appends "_dictionary.xlsx" to `source_path` to denote that the saved
+file represents a data dictionary, specifically.
+
+Then, the function creates a workbook with the `openxl` package. It parses
+through each data and creates a unique worksheet for each, appending it to the
+workbook. After each data is represented as a unique worksheet, it will export
+the workbook as `Dictionaries/source_path_dictionary.xlsx`, creating the
+"Dictionaries" folder if one does not already exist.
+
+The functions saves this output and returns the file path that it was saved at.
+
+For example, the following code will save the dictionary of `df_list`, which we
+generated in the last step.
+
+```{r}
+save_data_dictionary(df_list, source_path = "overview_example")
+```
 

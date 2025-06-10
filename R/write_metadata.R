@@ -9,7 +9,11 @@
 #' @returns Nothing, but saves a workbook as an excel file (.xlsx).
 #' @export
 save_data_dictionary <- function(data, source_path = "data") {
+
+  ifelse(!dir.exists("Dictionaries"), dir.create("Dictionaries"), "Directory Exists")
+
   output_name <- paste0(
+    "Dictionaries/",
     stringr::str_replace_all(source_path, "/", "_"),
     "_dictionary.xlsx"
   )
