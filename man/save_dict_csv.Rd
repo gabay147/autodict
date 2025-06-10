@@ -7,12 +7,10 @@ This function takes in "data" - the list of data frames obtained from
 get_files_from_path. Each individual data frame is processed for meta data
 and saved as a CSV in a directory that mirrors the directory of its source.}
 \usage{
-save_dict_csv(data, source_path = "data")
+save_dict_csv(data)
 }
 \arguments{
 \item{data}{The complete data, often as a list of data frames}
-
-\item{source_path}{The path for the data, where the data will be}
 }
 \value{
 Nothing, but saves a series of csv files (.csv).
