@@ -71,11 +71,10 @@ save_dict_xlsx <- function(data, source_path = "data") {
 #' and saved as a CSV in a directory that mirrors the directory of its source.
 #'
 #' @param data The complete data, often as a list of data frames
-#' @param source_path The path for the data, where the data will be
 #'
 #' @returns Nothing, but saves a series of csv files (.csv).
 #' @export
-save_dict_csv <- function(data, source_path = "data") {
+save_dict_csv <- function(data) {
 
   original_wd <- getwd()
 

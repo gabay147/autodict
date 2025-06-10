@@ -90,7 +90,7 @@ For example, the following code will save the dictionary of `df_list`, which we
 generated in the last step.
 
 ```{r}
-save_dict_csv(df_list)
+save_dict_csv(data = df_list)
 ```
 
 ### XLSX vs CSV considerations
