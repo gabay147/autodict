@@ -49,6 +49,11 @@ recursively, reading in files as specified by the `file_types` tag (default:
 
 Currently, this function can only read in .csv and .xlsx files.
 
+The `keep_dir` tag is a boolean that determines whether the names of the data
+frames will include the original path of the files (useful if saving as CSV - 
+`keep_dir = TRUE`) or if the names should only be the source file name, without
+the path (useful if saving as XLSX - `keep_dir = FALSE` - also the default val).
+
 `get_files_from_path()` returns a combined list of data frames. Each data frame
 is a file that was read in.
 
@@ -57,7 +62,9 @@ For example, the following code block will search through everything within
 additional folders nested within.
 
 ```{r}
-df_list <- get_files_from_path(path = "Data/All Data", file_types = c("csv", "xlsx"))
+df_list <- get_files_from_path(path = "Data/All Data", file_types = c("csv", "xlsx"), keep_dir = TRUE)
+df_list
+names(df_list)
 ```
 
 If all of this data is clean and represented as you expect it should, you can 
@@ -74,7 +81,8 @@ Then, the function creates a workbook with the `openxl` package. It parses
 through each data and creates a unique worksheet for each, appending it to the
 workbook. After each data is represented as a unique worksheet, it will export
 the workbook as `Dictionaries/source_path_dictionary.xlsx`, creating the
-"Dictionaries" folder if one does not already exist.
+"Dictionaries" folder if one does not already exist. This folder will be created
+**in the directory that your working file is saved.**
 
 The functions saves this output and returns the file path that it was saved at.
 
@@ -82,6 +90,25 @@ For example, the following code will save the dictionary of `df_list`, which we
 generated in the last step.
 
 ```{r}
-save_data_dictionary(df_list, source_path = "overview_example")
+save_dict_csv(df_list)
 ```
 
+### XLSX vs CSV considerations
+
+In this workflow, saving an XLSX and a CSV have different needs. Ultimately, the
+output from `get_files_from_path` function can be used for both `save_dict_csv`
+and `save_dict_xlsx` without issue. However, you should pay attention to the
+`keep_dir` tag that you use.
+
+If you use `get_files_from_path(..., keep_dir = TRUE)`...
+
+- **Saving a CSV file** will save each data frame recursively in a file folder
+structure identical to that which it had originally (within the "Dictionaries"
+folder, of course).
+- **Saving an XLSX file** will behave incorrectly, as the name of each worksheet
+that composes the workbook will be filled with the file path, instead of a
+descriptive name generated from the file name.
+
+- When in doubt...
+  - **Saving a CSV: ** use `keep_dir = TRUE`
+  - **Saving an XLSX: ** use `keep_dir = FALSE`

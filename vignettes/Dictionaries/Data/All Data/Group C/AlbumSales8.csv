@@ -1,0 +1,5 @@
+"","Variable Name","Data Type","Rows","Example","Percent Missing","Description"
+"1","adverts","character",10,"215.368",0,""
+"2","sales","character",10,"230",0,""
+"3","airplay","character",10,"36",0,""
+"4","attract","character",10,"6",0,""

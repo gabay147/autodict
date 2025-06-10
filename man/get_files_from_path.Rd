@@ -4,7 +4,11 @@
 \alias{get_files_from_path}
 \title{Read files from a directory recursively}
 \usage{
-get_files_from_path(path = ".", file_types = c("csv", "xlsx"))
+get_files_from_path(
+  path = ".",
+  file_types = c("csv", "xlsx"),
+  keep_dir = FALSE
+)
 }
 \arguments{
 \item{path}{The folder path to iterate through recursively. Defaults to the
@@ -12,6 +16,9 @@ current working directory}
 
 \item{file_types}{a list of file types to search for. Defaults to "csv" and
 "xlsx". Supported file types: csv, xlsx}
+
+\item{keep_dir}{A boolean to determine whether to keep the full path of the
+file as its name.}
 }
 \value{
 a list of data frames, with each data frame the data  from a file
