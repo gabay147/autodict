@@ -4,6 +4,8 @@
 #'  current working directory
 #' @param file_types a list of file types to search for. Defaults to "csv" and
 #'  "xlsx". Supported file types: csv, xlsx
+#' @param keep_dir A boolean to determine whether to keep the full path of the
+#' file as its name.
 #'
 #' @return a list of data frames, with each data frame the data  from a file
 #'    in the path
@@ -12,24 +14,27 @@
 #' @importFrom purrr map
 #' @importFrom readr read_csv cols col_character
 #' @importFrom readxl read_xlsx
-get_files_from_path <- function(path = ".", file_types = c("csv", "xlsx")) {
+get_files_from_path <- function(path = ".", file_types = c("csv", "xlsx"), keep_dir = FALSE) {
   # Get path
   folder_path <- path # assign the path as user input
 
   csv_data <- c()
   xlsx_data <- c()
 
-  # Get file paths of all CSV in directory (recursive)
+  # Get file paths of all CSV or XLSX in directory (recursive)
   for(x in file_types) {
     if(x == "csv") {
       file_paths_csv <- dir_ls(
         path = folder_path,
         recurse = TRUE,
-        glob = "*.csv")
+        glob = "*.csv") |> print()
       csv_data <- map(
         file_paths_csv,
         ~ read_csv(.x, col_types = cols(.default = col_character())))
-      names(csv_data) <- path_file(file_paths_csv)
+      if(keep_dir == FALSE) {
+        names(csv_data) <- path_file(file_paths_csv)
+      }
+      # names(csv_data)
     }
     else if(x == "xlsx") {
       file_paths_xlsx <- dir_ls(
@@ -39,7 +44,10 @@ get_files_from_path <- function(path = ".", file_types = c("csv", "xlsx")) {
       xlsx_data <- map(
         file_paths_xlsx,
         ~ read_xlsx(.x, col_types = "text"))
-      names(xlsx_data) <- path_file(file_paths_xlsx)
+      if(keep_dir == FALSE) {
+        names(xlsx_data) <- path_file(file_paths_xlsx)
+      }
+      # names(xlsx_data)
     }
   }
 
