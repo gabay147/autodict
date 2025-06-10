@@ -1,4 +1,4 @@
-test_that("save_data_dictionary writes a valid Excel file", {
+test_that("save_dict_xlsx writes a valid Excel file", {
   # Create mock data
   sample_data <- list(
     "example1.csv" = tibble::tibble(id = c(1, 2, NA), name = c("Alice", "Bob", NA)),
@@ -16,7 +16,7 @@ test_that("save_data_dictionary writes a valid Excel file", {
   if (file.exists(expected_path)) unlink(expected_path)
 
   # Run the function
-  save_data_dictionary(sample_data, source_path = source_path)
+  save_dict_xlsx(sample_data, source_path = source_path)
 
   print(stringr::str_c("expected path: ", expected_path))
   print(stringr::str_c("File exists: ", file.exists(expected_path)))

@@ -8,7 +8,7 @@
 #'
 #' @returns Nothing, but saves a workbook as an excel file (.xlsx).
 #' @export
-save_data_dictionary <- function(data, source_path = "data") {
+save_dict_xlsx <- function(data, source_path = "data") {
 
   ifelse(!dir.exists("Dictionaries"), dir.create("Dictionaries"), "Directory Exists")
 

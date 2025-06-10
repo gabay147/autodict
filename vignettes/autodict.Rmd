@@ -74,7 +74,8 @@ Then, the function creates a workbook with the `openxl` package. It parses
 through each data and creates a unique worksheet for each, appending it to the
 workbook. After each data is represented as a unique worksheet, it will export
 the workbook as `Dictionaries/source_path_dictionary.xlsx`, creating the
-"Dictionaries" folder if one does not already exist.
+"Dictionaries" folder if one does not already exist. This folder will be created
+**in the directory that your working file is saved.**
 
 The functions saves this output and returns the file path that it was saved at.
 
