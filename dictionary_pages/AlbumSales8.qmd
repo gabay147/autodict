@@ -1,0 +1,16 @@
+---
+title: "Data Dictionary: AlbumSales8"
+format: html
+---
+
+```{r setup, include=FALSE}
+library(readr)
+library(dplyr)
+library(knitr)
+library(tibble)
+```
+
+```{r load-metadata}
+
+kable(metadata)
+```
