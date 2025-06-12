@@ -35,8 +35,6 @@ get_files_from_path <- function(path = NULL, file_types = c("csv", "xlsx"), keep
         ~ read_csv(.x, col_types = cols(.default = col_character())))
       if (keep_dir == FALSE) {
         names(csv_data) <- path_file(file_paths_csv)
-      } else {
-        #names(csv_data) <- stringr::str_replace_all(file_paths_csv, "/", "_")
       }
       # names(csv_data)
     }
