@@ -1,0 +1,19 @@
+---
+title: "Data Dictionary: vignettes/Dictionaries/Data/All Data/Group A/AlbumSales5.csv"
+format: html
+---
+
+```{r setup, include=FALSE}
+library(readr)
+library(dplyr)
+library(knitr)
+library(tibble)
+library(DT)
+library(autodict)
+```
+
+```{r load-metadata}
+metadata <- read.csv("../vignettes/Dictionaries/Data/All Data/Group A/AlbumSales5.csv")
+
+datatable(metadata)
+```

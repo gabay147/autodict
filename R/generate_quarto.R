@@ -9,20 +9,20 @@ generate_dict_pages <- function(
   ifelse(!dir.exists(output_dir), dir.create(output_dir), "Directory Exists")
 
   # get_files_from_path returns a list of data frames built from the directory
-  file_list <- get_files_from_path(input_dir, metadata_format)
-  print(names(file_list))
+  file_list <- get_files_from_path(input_dir, metadata_format, keep_dir = TRUE)
+  # print(names(file_list))
 
   for (i in seq_along(file_list)) {
 
     name <- stringr::str_remove(names(file_list)[i], ".csv")
 
-    qmd_path <- file.path(output_dir, paste0(name, ".qmd"))
+    qmd_path <- file.path(output_dir, paste0(stringr::str_replace_all(name, "/", "_"), ".qmd"))
 
 
     # Quarto content
     qmd <- c(
       "---",
-      paste0("title: \"Data Dictionary: ", name, "\""),
+      paste0("title: \"Data Dictionary: ", stringr::str_replace_all(name, "_", "/"), ".csv", "\""),
       "format: html",
       "---",
       "",
@@ -31,12 +31,14 @@ generate_dict_pages <- function(
       "library(dplyr)",
       "library(knitr)",
       "library(tibble)",
+      "library(DT)",
+      "library(autodict)",
       "```",
       "",
       "```{r load-metadata}",
-      # sprintf("metadata <- read_csv(\"%s\")", relative_path),
+      paste0("metadata <- read.csv(\"../", names(file_list)[i], "\")"),
       "",
-      "kable(metadata)",
+      "datatable(metadata)",
       "```"
     )
 
