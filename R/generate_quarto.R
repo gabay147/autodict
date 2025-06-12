@@ -1,3 +1,12 @@
+#' Generates quarto pages from dictionaries in input_dir
+#'
+#' @param input_dir input path
+#' @param output_dir output path
+#' @param render render quarto or not
+#' @param metadata_format the format of the files being read
+#'
+#' @return nothing - generates quarto pages
+#' @export
 generate_dict_pages <- function(
     input_dir,
     output_dir = "dictionary_pages",
