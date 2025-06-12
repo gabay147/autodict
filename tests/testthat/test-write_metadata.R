@@ -10,13 +10,14 @@ test_that("save_dict_xlsx writes a valid Excel file", {
 
   # Expected file path
   expected_name <- "some_nested_folder_dictionary.xlsx"
-  expected_path <- file.path(getwd(), expected_name)
+  expected_path <- file.path(source_path, expected_name)
+  expected_path
 
   # Delete old file if it exists
   if (file.exists(expected_path)) unlink(expected_path)
 
   # Run the function
-  save_dict_xlsx(sample_data, source_path = source_path)
+  save_dict_xlsx(sample_data, "some/nested/folder")
 
   print(stringr::str_c("expected path: ", expected_path))
   print(stringr::str_c("File exists: ", file.exists(expected_path)))

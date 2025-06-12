@@ -14,7 +14,9 @@
 #' @importFrom purrr map
 #' @importFrom readr read_csv cols col_character
 #' @importFrom readxl read_xlsx
-get_files_from_path <- function(path = ".", file_types = c("csv", "xlsx"), keep_dir = FALSE) {
+get_files_from_path <- function(path = NULL, file_types = c("csv", "xlsx"), keep_dir = FALSE) {
+  if(is.null(path)) {path <- getwd()}
+
   # Get path
   folder_path <- path # assign the path as user input
 
@@ -31,7 +33,7 @@ get_files_from_path <- function(path = ".", file_types = c("csv", "xlsx"), keep_
       csv_data <- map(
         file_paths_csv,
         ~ read_csv(.x, col_types = cols(.default = col_character())))
-      if(keep_dir == FALSE) {
+      if (keep_dir == FALSE) {
         names(csv_data) <- path_file(file_paths_csv)
       }
       # names(csv_data)

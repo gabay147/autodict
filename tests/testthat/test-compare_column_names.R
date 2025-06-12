@@ -15,10 +15,6 @@ test_that("compare_column_names creates a dataframe", {
     age = c(45, 31, 28)
   )
 
-  test <- compare_column_names(dfs)
-
-  test
-
   expected <- data.frame(
     Variable = c("nameL", "nameF", "age", "LastName", "FirstName"),
     df1 = c(TRUE, TRUE, TRUE, FALSE, FALSE),
