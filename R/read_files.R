@@ -9,11 +9,11 @@
 #'
 #' @return a list of data frames, with each data frame the data  from a file
 #'    in the path
-#' @export
 #' @importFrom fs dir_ls path_file
 #' @importFrom purrr map
 #' @importFrom readr read_csv cols col_character
 #' @importFrom readxl read_xlsx
+#' @export
 get_files_from_path <- function(path = NULL, file_types = c("csv", "xlsx"), keep_dir = FALSE) {
   if(is.null(path)) {path <- getwd()}
 
