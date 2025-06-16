@@ -136,3 +136,14 @@ save_dict_csv <- function(data) {
   setwd(original_wd)
   print("Done saving!")
 }
+
+#' desc
+#'
+#' @param data_list a list of named data frames, likely obtained from
+#' get_files_from_path()
+#'
+#' @return what it returns
+#' @export
+save_dict <- function(data_list) {
+
+}

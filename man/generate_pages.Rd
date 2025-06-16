@@ -10,7 +10,8 @@ generate_pages(
   input_dir,
   output_dir = "dictionary_pages",
   render = FALSE,
-  metadata_format = c("csv")
+  metadata_format = c("csv"),
+  keep_dir = TRUE
 )
 }
 \arguments{
@@ -22,6 +23,8 @@ generate_pages(
 markdown file)}
 
 \item{metadata_format}{the format of the files being read}
+
+\item{keep_dir}{whether to keep the file path in the name of dfs}
 }
 \value{
 nothing - generates quarto pages

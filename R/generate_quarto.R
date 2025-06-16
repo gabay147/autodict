@@ -96,6 +96,7 @@ generate_page <- function(
 #' @param render render quarto or not (if FALSE, only generates the quarto
 #' markdown file)
 #' @param metadata_format the format of the files being read
+#' @param keep_dir whether to keep the file path in the name of dfs
 #'
 #' @return nothing - generates quarto pages
 #' @export
@@ -103,7 +104,8 @@ generate_pages <- function(
     input_dir,
     output_dir = "dictionary_pages",
     render = FALSE,
-    metadata_format = c("csv")
+    metadata_format = c("csv"),
+    keep_dir = TRUE
 ) {
   metadata_format <- match.arg(metadata_format)
 
@@ -114,7 +116,7 @@ generate_pages <- function(
   ifelse(!dir.exists(output_dir), dir.create(output_dir), "Directory Exists")
 
   # get_files_from_path returns a list of data frames built from the directory
-  file_list <- get_files_from_path(input_dir, metadata_format, keep_dir = TRUE)
+  file_list <- get_files_from_path(input_dir, metadata_format, keep_dir)
   # print(names(file_list))
 
   for (i in seq_along(file_list)) {

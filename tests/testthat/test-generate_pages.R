@@ -16,7 +16,7 @@ test_that("generate_pages() generates a .qmd file for each input file", {
     output_dir <- file.path(tempdir(), "qmds")
 
     # Run function
-    generate_pages(input_dir, output_dir, render = FALSE, metadata_format = "csv")
+    generate_pages(input_dir, output_dir, render = FALSE, metadata_format = "csv", keep_dir = FALSE)
 
     # Check output files
     expect_true(file.exists(file.path(output_dir, "input_meta1.csv.qmd")))

@@ -21,6 +21,7 @@ test_that("generate_page() writes a file to the correct location", {
     file_name <- tools::file_path_sans_ext(names(named_df))
     expected_title <- paste0("Data Dictionary: ", stringr::str_replace_all(file_name, "_", "/"), ".csv")
     content <- readLines(expected_file)
+
     expect_true(any(grepl(expected_title, content)))
   })
 })
