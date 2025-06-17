@@ -13,7 +13,8 @@ Imports:
     fs,
     purrr,
     readr,
-    readxl
+    readxl,
+    openxlsx
 Suggests: 
     knitr,
     rmarkdown,
