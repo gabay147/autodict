@@ -2,10 +2,8 @@
 % Please edit documentation in R/write_metadata.R
 \name{save_dict_csv}
 \alias{save_dict_csv}
-\title{Function to save the data dictionary as a directory of CSVs
-This function takes in "data" - the list of data frames obtained from
-get_files_from_path. Each individual data frame is processed for meta data
-and saved as a CSV in a directory that mirrors the directory of its source.}
+\title{Save dictionary as CSV (Deprecated)
+Please use \code{\link[=save_dict]{save_dict()}} instead.}
 \usage{
 save_dict_csv(data)
 }
@@ -16,8 +14,9 @@ save_dict_csv(data)
 Nothing, but saves a series of csv files (.csv).
 }
 \description{
-Function to save the data dictionary as a directory of CSVs
-This function takes in "data" - the list of data frames obtained from
-get_files_from_path. Each individual data frame is processed for meta data
-and saved as a CSV in a directory that mirrors the directory of its source.
+Save dictionary as CSV (Deprecated)
+Please use \code{\link[=save_dict]{save_dict()}} instead.
+}
+\seealso{
+\code{\link[=save_dict]{save_dict()}}
 }

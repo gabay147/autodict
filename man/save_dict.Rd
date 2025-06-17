@@ -2,7 +2,13 @@
 % Please edit documentation in R/write_metadata.R
 \name{save_dict}
 \alias{save_dict}
-\title{desc}
+\title{Function to write the data dictionary to files. Can save the
+dictionary as a series of CSV files or a single XLSX file with multiple
+worksheets. \code{data} is a named list of data frames, most likely returned from
+get_files_from_path. This function will always generate the folder
+"Dictionary" wherever destination_path is. For example, by default,
+\code{destination_path = "."} (the current working directory), so a new folder
+"Dictionary" will be added to the working directory.}
 \usage{
 save_dict(data, export_as = "csv", destination_path = ".")
 }
@@ -14,5 +20,11 @@ get_files_from_path()}
 what it returns
 }
 \description{
-desc
+Function to write the data dictionary to files. Can save the
+dictionary as a series of CSV files or a single XLSX file with multiple
+worksheets. \code{data} is a named list of data frames, most likely returned from
+get_files_from_path. This function will always generate the folder
+"Dictionary" wherever destination_path is. For example, by default,
+\code{destination_path = "."} (the current working directory), so a new folder
+"Dictionary" will be added to the working directory.
 }
