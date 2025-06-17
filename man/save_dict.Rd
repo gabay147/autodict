@@ -4,10 +4,10 @@
 \alias{save_dict}
 \title{desc}
 \usage{
-save_dict(data_list)
+save_dict(data, export_as = "csv", destination_path = ".")
 }
 \arguments{
-\item{data_list}{a list of named data frames, likely obtained from
+\item{data}{a list of named data frames, likely obtained from
 get_files_from_path()}
 }
 \value{

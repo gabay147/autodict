@@ -1,37 +1,33 @@
-test_that("save_dict_xlsx writes a valid Excel file", {
-  # Create mock data
-  sample_data <- list(
-    "example1.csv" = tibble::tibble(id = c(1, 2, NA), name = c("Alice", "Bob", NA)),
-    "another_file.xlsx" = tibble::tibble(score = c(95, NA, 82), passed = c(TRUE, FALSE, NA))
-  )
+test_that("save_dict writes a CSV and XLSX file", {
+  withr::with_tempdir({
+    # Generate testing environment infrastructure ----
+    generate_test_data_dir(tempdir())
+    fs::dir_tree()
 
-  # Set fake source path to simulate directory
-  source_path <- "some/nested/folder"
+    # Read test files
+    data_list <- get_files_from_path()
 
-  # Expected file path
-  expected_name <- "some_nested_folder_dictionary.xlsx"
-  expected_path <- file.path(source_path, expected_name)
-  expected_path
+    save_dict(data_list)
 
-  # Delete old file if it exists
-  if (file.exists(expected_path)) unlink(expected_path)
+    written_files <- list.files(path = "./Dictionary", pattern = "\\.csv$", full.names = TRUE)
 
-  # Run the function
-  save_dict_xlsx(sample_data, "some/nested/folder")
+    message(length(written_files))
 
-  print(stringr::str_c("expected path: ", expected_path))
-  print(stringr::str_c("File exists: ", file.exists(expected_path)))
-  # Check file was created
-  expect_true(file.exists(expected_path))
+    expect_true(length(written_files) == 12,
+                info = "Expected number of files were not created!",
+                label = "Checks that expected number of files (csv) were written.")
 
-  # Load workbook and check contents
+    save_dict(data_list, export_as = "xlsx")
 
-  wb <- openxlsx::loadWorkbook(expected_path)
-  sheets <- openxlsx::getSheetNames(expected_path)
-  expect_true(any(grepl("example1", sheets)))
-  expect_true(any(grepl("another_file", sheets)))
+    written_files <- list.files(path = "./Dictionary", pattern = "\\.xlsx$", full.names = TRUE)
 
-  # Clean up
-  unlink(expected_path)
+    message(length(written_files))
+
+    expect_true(length(written_files) == 1,
+                info = "Expected number of files were not created!",
+                label = "Checks that expected number of files (xlsx) were written")
+
+    fs::dir_tree()
+  })
 })
 
