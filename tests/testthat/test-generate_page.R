@@ -1,20 +1,30 @@
 test_that("generate_page() writes a file to the correct location", {
   withr::with_tempdir({
     # Create dummy data frame
-    df <- data.frame(a = 1:5, b = letters[1:5])
-    named_df <- list("test_file.csv" = df)
+    generate_test_data_dir(tempdir())
 
-    # Create output directory
-    output_dir <- file.path(tempdir(), "output")
+    df_list <- get_files_from_path()
+
+    # Generate dictionary files
+    save_dict(df_list)
+
+    # Get files from save_dict to generate into Quarto
+    dict_list <- get_files_from_path("Dictionary")
+
+    output_dir <- fs::path(getwd(), "Dictionary", "Quarto")
+
+    named_df <- dict_list[1]
 
     # Run the function
-    generate_page(named_df, output_dir, metadata_format = "csv", render = FALSE)
+    generate_page(input_df = named_df, output_location = fs::path(output_dir), metadata_format = "csv", render = FALSE)
 
+    fs::dir_tree()
     # Expect output dir to exist
     expect_true(dir.exists(output_dir))
 
     # Expect QMD file exists
-    expected_file <- file.path(output_dir, "test_file.csv.qmd")
+    expected_file <- fs::path(output_dir, stringr::str_c(names(named_df), ".qmd"))
+    message("Expected file: ", expected_file)
     expect_true(file.exists(expected_file))
 
     # Optional: read the file and inspect contents

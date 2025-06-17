@@ -25,11 +25,14 @@ generate_page <- function(
   }
   if (!dir.exists(output_location)) {
     message("output_location does not exist! Attempting to generate...")
-    tryCatch({
+    created <- tryCatch({
       dir.create(output_location, recursive = TRUE)
     }, error = function(e) {
       stop("Failed to create directory at ", output_location, ": ", e$message)
     })
+    if (!isTRUE(created)) {
+      stop("Attempted to create directory at ", output_location, " but dir.create() returned FALSE!")
+    }
   }
 
   # Validate name is not null
