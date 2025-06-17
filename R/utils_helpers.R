@@ -111,9 +111,14 @@ preview_standardization <- function(item_ids, target_length = NULL) {
       "Max:", max(standardized_lengths, na.rm = TRUE), "\n")
 }
 
+#' Takes in a data frame and scraped descriptive metadata from the data set.
+#' Used primarily in [save_dict()]
 #'
+#' @param df The single data frame to gather metadata about
 #'
-#'
+#' @seealso [save_dict()]
+#' @return a list of metadata about a single data frame
+#' @export
 generate_meta_data <- function(df) {
   # Get basic information
   column_names <- names(df)
@@ -140,9 +145,12 @@ generate_meta_data <- function(df) {
   return(metadata_df)
 }
 
+#' A function that generates a test directory with test files in the desired
+#' directory. Likely to be used in a `usethis` test environment with a `withr`
+#' tempdir.
 #'
-#'
-#'
+#' @return invisible(nested_path)
+#' @export
 generate_test_data_dir <- function(base_dir) {
   # Generate test directory within tempdir() ----
   nested_path <- file.path("some", "nested", "directory")
@@ -215,12 +223,20 @@ generate_test_data_dir <- function(base_dir) {
   }
 
   write("This is just a text file! Nyahahaha!", file = "./some/nested/red_herring.txt")
-
+  return(invisible(nested_path))
 }
 
+#' A function to normalize a name from a path - used in cases where the path of
+#' a file is used in the generation of a unique file name that also shows its
+#' source directory. Primarily used in [save_dict()]
 #'
+#' @param name A single string file name that may contain file path conventions
+#' - desired to be made safe for file naming.
 #'
-#'
+#' @return the normalized name
+#' - Slashes are replaced with an underscore
+#' - Extensions .csv and .xlsx are removed
+#' @export
 normalize_name <- function(name) {
   name <- stringr::str_replace_all(name, "[/\\\\]", "_")
   name <- stringr::str_replace(name, "\\.csv$|\\.xlsx$", "")
