@@ -7,7 +7,7 @@
 get_files_from_path(
   path = NULL,
   file_types = c("csv", "xlsx"),
-  keep_dir = FALSE
+  keep_dir = TRUE
 )
 }
 \arguments{

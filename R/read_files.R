@@ -9,12 +9,12 @@
 #'
 #' @return a list of data frames, with each data frame the data  from a file
 #'    in the path
-#' @importFrom fs dir_ls path_file
+#' @importFrom fs dir_ls path_file path_dir
 #' @importFrom purrr map
 #' @importFrom readr read_csv cols col_character
 #' @importFrom readxl read_xlsx
 #' @export
-get_files_from_path <- function(path = NULL, file_types = c("csv", "xlsx"), keep_dir = FALSE) {
+get_files_from_path <- function(path = NULL, file_types = c("csv", "xlsx"), keep_dir = TRUE) {
   if(is.null(path)) {path <- getwd()}
 
   # Get path
@@ -33,10 +33,12 @@ get_files_from_path <- function(path = NULL, file_types = c("csv", "xlsx"), keep
       csv_data <- map(
         file_paths_csv,
         ~ read_csv(.x, col_types = cols(.default = col_character())))
-      if (keep_dir == FALSE) {
+      if (keep_dir) {
+        names(csv_data) <- fs::path_rel(file_paths_csv, start = folder_path)
+      }
+      else {
         names(csv_data) <- path_file(file_paths_csv)
       }
-      # names(csv_data)
     }
     else if(x == "xlsx") {
       file_paths_xlsx <- dir_ls(
@@ -46,11 +48,14 @@ get_files_from_path <- function(path = NULL, file_types = c("csv", "xlsx"), keep
       xlsx_data <- map(
         file_paths_xlsx,
         ~ read_xlsx(.x, col_types = "text"))
-      if(keep_dir == FALSE) {
+      if (keep_dir) {
+        names(xlsx_data) <- fs::path_rel(file_paths_xlsx, start = folder_path)
+      }
+      else {
         names(xlsx_data) <- path_file(file_paths_xlsx)
       }
-      # names(xlsx_data)
     }
+    else{message("File format not supported!")}
   }
 
   return(c(csv_data, xlsx_data))
