@@ -5,9 +5,10 @@
 \title{Read files from a directory recursively}
 \usage{
 get_files_from_path(
-  path = NULL,
+  path = ".",
   file_types = c("csv", "xlsx"),
-  keep_dir = TRUE
+  keep_dir = TRUE,
+  debug = FALSE
 )
 }
 \arguments{

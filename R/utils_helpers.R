@@ -123,7 +123,17 @@ generate_meta_data <- function(df) {
   # Get basic information
   column_names <- names(df)
   n_rows <- nrow(df)
-  percent_missing <- round(colMeans(is.na(df)) * 100, 2)
+
+  if (ncol(df) > 1) {
+    percent_missing <- round(colMeans(is.na(df)) * 100, 2)
+  } else if (ncol(df) == 1) {
+    percent_missing <- setNames(
+      round(mean(is.na(df[[1]])) * 100, 2),
+      names(df)
+    )
+  } else {
+    percent_missing <- numeric(0)
+  }
 
   # Extract detailed information for each column
   metadata_list <- list()

@@ -8,9 +8,9 @@ recursively, generating data dictionary Quarto pages for each metadata file.}
 \usage{
 generate_pages(
   input_dir,
-  output_dir = "dictionary_pages",
+  output_dir,
   render = FALSE,
-  metadata_format = c("csv"),
+  metadata_format = c("csv", "xlsx"),
   keep_dir = TRUE
 )
 }

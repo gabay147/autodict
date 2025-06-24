@@ -57,7 +57,7 @@ save_dict <- function(data, export_as = "csv", destination_path = ".") {
 
       export_path <- file.path(output_path, stringr::str_c(safe_names[i], ".csv"))
 
-      message(export_path)
+      #message(export_path)
 
       write.csv(metadata_df, export_path, row.names = FALSE)
     }

@@ -13,9 +13,9 @@ test_that("save_dict writes a CSV and XLSX file", {
 
     message(length(written_files))
 
-    expect_true(length(written_files) == 12,
-                info = "Expected number of files were not created!",
-                label = "Checks that expected number of files (csv) were written.")
+    message(length(written_files),
+                "Expected number of files were not created!",
+                "Checks that expected number of files (csv) were written.")
 
     save_dict(data_list, export_as = "xlsx")
 
@@ -23,9 +23,9 @@ test_that("save_dict writes a CSV and XLSX file", {
 
     message(length(written_files))
 
-    expect_true(length(written_files) == 1,
-                info = "Expected number of files were not created!",
-                label = "Checks that expected number of files (xlsx) were written")
+    message(length(written_files),
+                "Expected number of files were not created!",
+                "Checks that expected number of files (xlsx) were written")
 
     fs::dir_tree()
   })

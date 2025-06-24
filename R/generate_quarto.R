@@ -11,7 +11,7 @@ generate_page <- function(
     input_df,
     output_location,
     render = FALSE,
-    metadata_format = c("csv") # Currently unused - included for future support of other file types
+    metadata_format = c("csv", "xlsx") # Currently unused - included for future support of other file types
 ) {
   # Currently unused - included for future support of other file types
   metadata_format <- match.arg(metadata_format)
@@ -42,8 +42,9 @@ generate_page <- function(
   }
 
   # Build path
-  safe_name <- stringr::str_replace_all(name, "/", "_")
-  qmd_path <- file.path(output_location, paste0(safe_name, ".qmd"))
+  safe_name <- stringr::str_replace_all(name, "[/ ]", "_")
+  qmd_path <- file.path(output_location, safe_name)
+  qmd_path <- fs::path_ext_set(qmd_path, ".qmd")
 
 
   # Quarto content
@@ -105,9 +106,9 @@ generate_page <- function(
 #' @export
 generate_pages <- function(
     input_dir,
-    output_dir = "dictionary_pages",
+    output_dir,
     render = FALSE,
-    metadata_format = c("csv"),
+    metadata_format = c("csv", "xlsx"),
     keep_dir = TRUE
 ) {
   metadata_format <- match.arg(metadata_format)
@@ -124,7 +125,7 @@ generate_pages <- function(
 
   for (i in seq_along(file_list)) {
     name <- names(file_list)[i]
-    message("Generating page for: ", name)
+    message("\nGenerating page for: ", name)
     generate_page(file_list[i], output_dir, render, metadata_format)
   }
   invisible(NULL)

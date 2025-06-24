@@ -9,7 +9,7 @@ generate_page(
   input_df,
   output_location,
   render = FALSE,
-  metadata_format = c("csv")
+  metadata_format = c("csv", "xlsx")
 )
 }
 \arguments{
