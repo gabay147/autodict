@@ -1,6 +1,6 @@
 Package: autodict
 Title: Generate Data Dictionary
-Version: 0.0.2.0000
+Version: 0.1.4.0
 Authors@R: 
     person("Felix", "Gabay", , "felix.gabay@outlook.com", role = c("aut", "cre"))
 Description: This package includes functions to recursively read data files (CSV, XLSX), collect metadata, and generate a data dictionary for the files.
@@ -13,7 +13,8 @@ Imports:
     fs,
     purrr,
     readr,
-    readxl
+    readxl,
+    openxlsx
 Suggests: 
     knitr,
     rmarkdown,

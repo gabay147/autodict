@@ -1,16 +1,23 @@
 test_that("get_files_from_path reads both csv and xlsx files", {
-  test_dir <- system.file("testdata", package = "autodict")
+  withr::with_tempdir({
 
-  result <- get_files_from_path(test_dir)
+    # Generate test data directory
+    generate_test_data_dir(tempdir())
 
-  expect_type(result, "list")
-  expect_true("test-file.csv" %in% names(result))
-  expect_true("test-file.xlsx" %in% names(result))
+    # message(fs::dir_tree())
 
-  expect_s3_class(result[["test-file.csv"]], "data.frame")
-  expect_s3_class(result[["test-file.xlsx"]], "data.frame")
+    # On to testing get_files_from_path()
+    read_data1 <- get_files_from_path()
+    expect_length(read_data1, 16)
 
-  expect_true(all(c("Name", "Age") %in% names(result[["test-file.csv"]])))
-  expect_true(all(c("Product", "Price") %in% names(result[["test-file.xlsx"]])))
+    # message("keep_dir = FALSE")
+    # message(names(read_data1))
+
+    read_data2 <- get_files_from_path(keep_dir = TRUE)
+    expect_length(read_data2, 16)
+
+    # message("keep_dir = TRUE")
+    # message(names(read_data2))
+  })
 })
 

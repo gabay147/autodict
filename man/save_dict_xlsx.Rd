@@ -2,10 +2,8 @@
 % Please edit documentation in R/write_metadata.R
 \name{save_dict_xlsx}
 \alias{save_dict_xlsx}
-\title{Function to save the data dictionary as an excel workbook
-This function takes in "data" - the list of data frames obtained from
-get_files_from_path. Each individual data frame is processed for meta data
-and saved as a worksheet to be compiled into a complete workbook}
+\title{Save dictionary as XSLX (Deprecated)
+Please use \code{\link[=save_dict]{save_dict()}} instead.}
 \usage{
 save_dict_xlsx(data, source_path = "data")
 }
@@ -18,8 +16,9 @@ save_dict_xlsx(data, source_path = "data")
 the file path of that the file was saved to
 }
 \description{
-Function to save the data dictionary as an excel workbook
-This function takes in "data" - the list of data frames obtained from
-get_files_from_path. Each individual data frame is processed for meta data
-and saved as a worksheet to be compiled into a complete workbook
+Save dictionary as XSLX (Deprecated)
+Please use \code{\link[=save_dict]{save_dict()}} instead.
+}
+\seealso{
+\code{\link[=save_dict]{save_dict()}}
 }
