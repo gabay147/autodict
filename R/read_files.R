@@ -80,13 +80,24 @@ get_files_from_path <- function(path = ".", file_types = c("csv", "xlsx"), keep_
 
           if (is.null(df)) next
 
+          # Construct path_base for naming
+          # if keep_dir, the path_base will be the relative path of the file
+          # starting at argument folder_path. Otherwise, path_base will simply
+          # be the file name.
           path_base <- if (keep_dir) {
             fs::path_rel(file_path, start = folder_path)
           } else {
             fs::path_file(file_path)
           }
 
-          df_name <- paste0(path_base, "_", sheet)
+          # If sheets length is greater than 1, concatenate sheet name.
+          # Otherwise, simply don't concatenate to avoid redundant naming.
+          if (length(sheets) > 1) {
+            df_name <- paste0(path_base, "-", sheet)
+          } else {
+            df_name <- path_base
+          }
+
           xlsx_data[[df_name]] <- df
         }
       }

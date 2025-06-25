@@ -218,7 +218,7 @@ generate_test_data_dir <- function(base_dir) {
                 info = "File df2 should have been created!",
                 label = "Check for file existence: df2.csv")
 
-    ## Write XLSX file ----
+    ## Write XLSX file with multiple sheets ----
     wb <- openxlsx::createWorkbook("Data Frames")
     openxlsx::addWorksheet(wb, "df1")
     openxlsx::addWorksheet(wb, "df2")
@@ -230,6 +230,15 @@ generate_test_data_dir <- function(base_dir) {
     expect_true(file.exists(stringr::str_c(partial_path, "/Data Frames.xlsx")),
                 info = "File Data Frames should have been created!",
                 label = "Check for file existence: Data Frames.xlsx")
+
+    ## Write XLSX file with single sheet ----
+
+    df3 <- dplyr::bind_rows(df1, df2)
+    openxlsx::write.xlsx(df3, stringr::str_c(partial_path, "/combined.xlsx"), overwrite = TRUE)
+
+    expect_true(file.exists(stringr::str_c(partial_path, "/combined.xlsx")),
+                info = "File combined.xlsx should have been created!",
+                label = "Check for file existence: combined.xlsx")
   }
 
   write("This is just a text file! Nyahahaha!", file = "./some/nested/red_herring.txt")
