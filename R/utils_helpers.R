@@ -161,7 +161,7 @@ generate_meta_data <- function(df) {
 #'
 #' @return invisible(nested_path)
 #' @export
-generate_test_data_dir <- function(base_dir) {
+generate_test_data_dir <- function(base_dir, test_errors = FALSE) {
   # Generate test directory within tempdir() ----
   nested_path <- file.path("some", "nested", "directory")
 
@@ -239,6 +239,19 @@ generate_test_data_dir <- function(base_dir) {
     expect_true(file.exists(stringr::str_c(partial_path, "/combined.xlsx")),
                 info = "File combined.xlsx should have been created!",
                 label = "Check for file existence: combined.xlsx")
+
+    # Test malformed files that will throw an error on reading
+    if(test_errors) {
+      writeBin(as.raw(c(0x00, 0xFF, 0xFE, 0x41, 0x42)), stringr::str_c(partial_path, "/Invalid.csv"))
+
+      writeLines(c(
+        'col1,col2',
+        'value1,"value2',
+        'value3\tvalue4'
+      ), stringr::str_c(partial_path, "/bad_delim.csv"))
+
+      writeLines("This is not an Excel file.", stringr::str_c(partial_path, "/fake_xlsx.xlsx"))
+    }
   }
 
   write("This is just a text file! Nyahahaha!", file = "./some/nested/red_herring.txt")
