@@ -22,7 +22,12 @@ get_files_from_path <- function(path = ".", file_types = c("csv", "xlsx"), keep_
   # cat("Original folder path before logic check: ", folder_path, "\n")
   csv_data <- list()
   xlsx_data <- list()
-  error_list <- list()
+  error_list <- tibble::tibble(
+    file = character(),
+    sheet = character(),
+    path = character(),
+    error_msg = character()
+  )
 
   # Get file paths of all CSV or XLSX in directory (recursive)
   for(x in file_types) {
@@ -33,9 +38,21 @@ get_files_from_path <- function(path = ".", file_types = c("csv", "xlsx"), keep_
         glob = "*.csv") |> print()
       csv_data <- map(file_paths_csv, function(file) {
         tryCatch({
-          read_csv(file, col_types = cols(.default = col_character()))
+          df <- read_csv(file, col_types = cols(.default = col_character()))
+          if (nrow(readr::problems(df)) > 0) {
+            print(readr::problems(df))
+            stop("CSV has parsing problems")
+          }
         }, error = function(e) {
-          error_list <<- c(error_list, file)
+          error_list <<- dplyr::bind_rows(
+            error_list,
+            tibble::tibble(
+              file = basename(file),
+              sheet = NA,
+              path = file,
+              error_msg = conditionMessage(e)
+            )
+          )
           return(NULL)
         })
       })
@@ -63,8 +80,17 @@ get_files_from_path <- function(path = ".", file_types = c("csv", "xlsx"), keep_
           readxl::excel_sheets(file_path)
         }, error = function(e) {
           message("Failed to read sheets from: ", file_path)
-          error_list <- c(error_list, file_path)
-          return(NULL)
+          error_list <<- dplyr::bind_rows(
+            error_list,
+            tibble::tibble(
+              file = basename(file_path),
+              sheet = NA,
+              path = file_path,
+              error_msg = conditionMessage(e)
+            )
+          )
+          #print(error_list)
+          return(character(0))
         })
 
         if (is.null(sheets)) next
@@ -74,7 +100,16 @@ get_files_from_path <- function(path = ".", file_types = c("csv", "xlsx"), keep_
             readxl::read_xlsx(file_path, sheet = sheet, col_types = "text")
           }, error = function(e) {
             message("Failed to read sheet '", sheet, "' in: ", file_path)
-            error_list <- c(error_list, paste0(file_path, "::", sheet))
+            error_list <<- dplyr::bind_rows(
+              error_list,
+              tibble::tibble(
+                file = basename(file_path),
+                sheet = sheet,
+                path = file_path,
+                error_msg = conditionMessage(e)
+              )
+            )
+            #print(error_list)
             return(NULL)
           })
 
@@ -110,5 +145,11 @@ get_files_from_path <- function(path = ".", file_types = c("csv", "xlsx"), keep_
     else{message("File format not supported!")}
   }
 
-  return(c(csv_data, xlsx_data))
+  message("Done reading files! Final error_list: ")
+  print(error_list)
+
+  return(list(
+    data = c(csv_data, xlsx_data),
+    errors = error_list
+  ))
 }

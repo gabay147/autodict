@@ -6,7 +6,7 @@
 directory. Likely to be used in a \code{usethis} test environment with a \code{withr}
 tempdir.}
 \usage{
-generate_test_data_dir(base_dir)
+generate_test_data_dir(base_dir, test_errors = FALSE)
 }
 \value{
 invisible(nested_path)
